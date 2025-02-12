@@ -17,12 +17,13 @@ jobs:
           if [[ ! "$event_body" =~ "Nome do(a) Evento/Agenda" ]]; then
             echo "Issue não foi criada com um template válido. Pulando execução."
             exit 0
-          fi      
-
+          fi
+          
       - name: Atualizar título da issue
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          # Extraindo o nome do evento do corpo da issue
           event_info="${{ github.event.issue.body }}"
 
           get_event_value() {
@@ -38,6 +39,7 @@ jobs:
             exit 1
           fi
 
+          # Modificando o título da issue usando a API do GitHub
           issue_number="${{ github.event.issue.number }}"
           repo_name="${{ github.repository }}"
 
